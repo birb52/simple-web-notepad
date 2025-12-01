@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Notes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <div class="app" id="app">
+        <header>
+            <h1>Notepad</h1>
+            <div class="toolbar">
+                <button id="newBtn" title="New (Ctrl/Cmd+N)">New</button>
+                <button id="openBtn" title="Open (Ctrl/Cmd+O)">Open</button>
+                <button id="saveBtn" title="Save (Ctrl/Cmd+S)">Save</button>
+                <button id="settingsBtn" title="Settings">Settings</button>
+                <button id="helpBtn" title="Help">Help</button>
+            </div>
+        </header>
+        <main>
+            <section class="editorWrap">
+                <div class="editor">
+                    <textarea id="editor" spellcheck="false" placeholder="Start typing… (UTF-8 / Unicode supported)"></textarea>
+                </div>
+                <footer class="status">
+                    <div class="counts">
+                        <div id="charCount" class="muted">Chars: 0</div>
+                        <div id="wordCount" class="muted">Words: 0</div>
+                        <div id="selCount" class="muted">Selection: 0</div>
+                        <div id="position" class="muted">Ln 1, Col 1</div>
+                    </div>
+                </footer>
+            </section>
+        </main>
+    </div>
+
+    <input id="fileInput" type="file" accept=".txt,text/plain" style="display:none" />
+
+    <div id="settingsModal">
+        <div id="settingsContent">
+            <div id="settingsTabs">
+                <button class="tabBtn active" data-tab="editorTab">Editor</button>
+                <button class="tabBtn" data-tab="appearanceTab">Appearance</button>
+                <button class="tabBtn" data-tab="customTab">Custom</button>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; gap:12px;">
+                <div id="editorTab" class="tabContent active">
+                    <label>UI Font</label>
+                    <div class="searchFontWrapper">
+                        <input type="text" id="uiFontInput" placeholder="Search Google Fonts..." />
+                        <div class="fontList" id="uiFontList"></div>
+                    </div>
+                    <label>Notes Font</label>
+                    <div class="searchFontWrapper">
+                        <input type="text" id="noteFontInput" placeholder="Search Google Fonts..." />
+                        <div class="fontList" id="noteFontList"></div>
+                    </div>
+                    <label>Font Size</label>
+                    <input id="fontSize" type="number" min="10" max="48" value="16" />
+                    <label>Line Height</label>
+                    <input id="lineHeight" type="number" min="1" max="3" step="0.1" value="1.5" />
+                </div>
+                <div id="appearanceTab" class="tabContent">
+                    <label>Theme</label>
+                    <select id="themeSelect">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                        <option value="system">System</option>
+                    </select>
+                    <label>Wrap</label>
+                    <select id="wrapToggle">
+                        <option value="soft">Wrap</option>
+                        <option value="off">No Wrap</option>
+                    </select>
+                </div>
+                <div id="customTab" class="tabContent">
+                    <label>Background Color</label>
+                    <input type="color" id="bgColorPicker" />
+                    <label>Text Color</label>
+                    <input type="color" id="textColorPicker" />
+                </div>
+                <button id="closeSettings" style="align-self:flex-end;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="helpModal">
+        <div id="helpContent">
+            <div class="helpContent">
+                <h3>Notepad Help</h3>
+                <p>A lightweight, browser-based text editor with persistent storage.</p>
+                
+                <h4>File Operations</h4>
+                <ul>
+                    <li><strong>New</strong> (<span class="kbd">Ctrl+N</span>): Clear the editor</li>
+                    <li><strong>Open</strong> (<span class="kbd">Ctrl+O</span>): Load a text file from your device</li>
+                    <li><strong>Save</strong> (<span class="kbd">Ctrl+S</span>): Download current text as a .txt file</li>
+                </ul>
+                
+                <h4>Editor Features</h4>
+                <ul>
+                    <li><strong>Auto-save</strong>: Content is saved automatically in your browser</li>
+                    <li><strong>Character/Word Count</strong>: Real-time statistics in footer</li>
+                    <li><strong>Line & Column Tracking</strong>: Shows current cursor position</li>
+                    <li><strong>Selection Counting</strong>: Tracks selected characters</li>
+                </ul>
+                
+                <h4>Settings</h4>
+                <ul>
+                    <li><strong>Editor Tab</strong>: Customize fonts, font size, and line height</li>
+                    <li><strong>Appearance Tab</strong>: Switch between Light/Dark/System themes, toggle text wrapping</li>
+                    <li><strong>Custom Tab</strong>: Set custom background and text colors</li>
+                </ul>
+                
+                <h4>Tips</h4>
+                <ul>
+                    <li>All content persists between browser sessions</li>
+                    <li>Supports UTF-8 and Unicode characters</li>
+                    <li>Settings are saved per device/browser</li>
+                    <li>Click outside modal windows to close them</li>
+                </ul>
+                
+                <button id="closeHelp" style="margin-top:16px; float:right;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

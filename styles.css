@@ -1,0 +1,266 @@
+:root {
+    --bg: #f6f7fb;
+    --panel: #ffffff;
+    --text: #0b1220;
+    --muted: #5c6670;
+    --ui-font: 'Inter', system-ui, sans-serif;
+    --note-font: 'JetBrains Mono', monospace;
+    --font-size: 16px;
+    --line-height: 1.5;
+    --font-weight: 400;
+    color-scheme: light;
+}
+
+.dark {
+    --bg: #0b0f14;
+    --panel: #0f1720;
+    --text: #e6eef8;
+    --muted: #9aa7b7;
+    color-scheme: dark;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    font-family: var(--ui-font);
+    background: var(--bg);
+    color: var(--text);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    gap: 8px;
+    padding: 12px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+h1 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.toolbar {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+    align-items: center;
+}
+
+button,
+select,
+input[type="number"],
+input[type="text"],
+input[type="color"] {
+    background: var(--panel);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    color: var(--text);
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: var(--ui-font);
+}
+
+button:hover {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05) inset;
+}
+
+main {
+    display: flex;
+    gap: 12px;
+    flex: 1;
+    align-items: stretch;
+}
+
+.editorWrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.editor {
+    flex: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 14px rgba(2, 6, 23, 0.06);
+}
+
+textarea {
+    flex: 1;
+    border: 0;
+    outline: 0;
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    font-family: var(--note-font);
+    font-size: var(--font-size);
+    line-height: var(--line-height);
+    font-weight: var(--font-weight);
+    background: transparent;
+    color: var(--text);
+    caret-color: #3b82f6;
+    resize: none;
+    white-space: pre-wrap;
+}
+
+footer.status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    background: var(--panel);
+    border-radius: 8px;
+}
+
+.counts {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+.kbd {
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+#settingsModal,
+#helpModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+#settingsContent {
+    background: var(--panel);
+    color: var(--text);
+    padding: 18px;
+    border-radius: 10px;
+    width: 720px;
+    max-width: 95%;
+    box-shadow: 0 8px 30px rgba(2, 6, 23, 0.4);
+    display: flex;
+}
+
+#helpContent {
+    background: var(--panel);
+    color: var(--text);
+    padding: 24px;
+    border-radius: 10px;
+    width: 480px;
+    max-width: 95%;
+    box-shadow: 0 8px 30px rgba(2, 6, 23, 0.4);
+}
+
+#settingsTabs {
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+    gap: 6px;
+}
+
+.tabBtn {
+    padding: 6px 8px;
+    border: none;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.03);
+    cursor: pointer;
+    text-align: left;
+}
+
+.tabBtn.active {
+    background: rgba(0, 0, 0, 0.08);
+    font-weight: 500;
+}
+
+.tabContent {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.tabContent.active {
+    display: flex;
+}
+
+.searchFontWrapper {
+    position: relative;
+}
+
+.fontList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    background: var(--panel);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    z-index: 1000;
+}
+
+.fontList div {
+    padding: 4px 6px;
+    cursor: pointer;
+}
+
+.fontList div:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+label {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.helpContent h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.helpContent ul {
+    margin: 12px 0;
+    padding-left: 20px;
+}
+
+.helpContent li {
+    margin-bottom: 6px;
+}
+
+.helpContent .kbd {
+    font-family: monospace;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 12px;
+}
