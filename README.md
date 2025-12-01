@@ -4,18 +4,13 @@ A clean, modern web-based text editor that runs in your browser.
 ## What is it?
 Simple Web Notepad is a lightweight text editor that works entirely in your web browser. It's perfect for taking quick notes, writing drafts, or editing text files without installing any software.
 
-## Key Features
-✏️ Simple editing - Just type and go
-
-💾 Auto-saves - Your work is saved automatically
-
-🎨 Customizable - Change fonts, colors, and themes
-
-📁 File support - Open and save text files
-
-🔄 Persistent - Content stays between browser sessions
-
-📱 Responsive - Works on desktop and mobile
+## Features
+- Simple editing - Just type and go
+- Auto-saves - Your work is saved automatically
+- Customizable - Change fonts, colors, and themes
+- File support - Open and save text files
+- Persistent - Content stays between browser sessions
+- Responsive - Works on desktop and mobile
 
 How to Use
 - Open index.html in any modern browser
