@@ -28,6 +28,26 @@ let settings = {
     textColor: ''
 };
 
+// Tab functionality - handle tab key in editor
+editor.addEventListener('keydown', function(e) {
+    if (e.key === 'Tab') {
+        e.preventDefault(); // Prevent default tab behavior (focus change)
+        
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+        const spaces = '    '; // 4 spaces for a tab
+        
+        // Insert 4 spaces at cursor position
+        this.value = this.value.substring(0, start) + spaces + this.value.substring(end);
+        
+        // Move cursor to after the inserted spaces
+        this.selectionStart = this.selectionEnd = start + spaces.length;
+        
+        // Trigger input event to update counts and save
+        this.dispatchEvent(new Event('input'));
+    }
+});
+
 function applySettings() {
     document.documentElement.style.setProperty('--ui-font', settings.uiFont);
     document.documentElement.style.setProperty('--note-font', settings.noteFont);
