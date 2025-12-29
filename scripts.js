@@ -9,6 +9,7 @@ const markdownStatus = el('markdownStatus');
 const markdownIcon = el('markdownIcon');
 const modeIndicator = el('modeIndicator');
 const fileInput = el('fileInput');
+const filenameDisplay = el('filenameDisplay');
 
 // Settings elements
 const uiFontInput = el('uiFontInput');
@@ -46,6 +47,11 @@ let isMarkdownPreviewActive = false;
 let isUpdatingPreview = false;
 let lastCursorPosition = 0;
 let lastEditorScrollTop = 0;
+let currentFilename = 'Untitled.txt';
+
+function updateFilenameDisplay() {
+    if (filenameDisplay) filenameDisplay.textContent = currentFilename || 'Untitled.txt';
+}
 
 // Initialize
 function init() {
@@ -444,10 +450,11 @@ function setupFontSearch(input, list, settingKey) {
 
 // File operations
 function saveFile() {
+    const name = currentFilename || 'notes.txt';
     const blob = new Blob([editor.value], { type: 'text/plain;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'notes.txt';
+    a.download = name;
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -456,15 +463,21 @@ function saveFile() {
 
 function saveContent() {
     localStorage.setItem('zephyrNotepad.content', editor.value);
+    localStorage.setItem('zephyrNotepad.filename', currentFilename || 'Untitled.txt');
 }
 
 function loadContent() {
     const c = localStorage.getItem('zephyrNotepad.content');
+    const fn = localStorage.getItem('zephyrNotepad.filename') || 'Untitled.txt';
     if (c) {
         editor.value = c;
+        currentFilename = fn;
         updateCounts();
         updateUI();
+    } else {
+        currentFilename = fn;
     }
+    updateFilenameDisplay();
 }
 
 // Counts and stats
@@ -542,6 +555,9 @@ function setupEventListeners() {
             const r = new FileReader();
             r.onload = ev => {
                 editor.value = ev.target.result;
+                currentFilename = f.name;
+                updateFilenameDisplay();
+                localStorage.setItem('zephyrNotepad.filename', currentFilename);
                 updateCounts();
                 saveContent();
                 updateUI();
@@ -562,6 +578,8 @@ function setupEventListeners() {
         if (confirm('Clear editor?')) {
             editor.value = '';
             markdownPreview.innerHTML = '';
+            currentFilename = 'Untitled.txt';
+            updateFilenameDisplay();
             updateCounts();
             saveContent();
             updateUI();
@@ -669,6 +687,8 @@ function setupEventListeners() {
             if (confirm('Clear editor?')) {
                 editor.value = '';
                 markdownPreview.innerHTML = '';
+                currentFilename = 'Untitled.txt';
+                updateFilenameDisplay();
                 updateCounts();
                 saveContent();
                 updateUI();

@@ -12,6 +12,7 @@
     <div class="app" id="app">
         <header>
             <h1>Simple Web Notepad</h1>
+            <div id="filenameDisplay" class="muted" style="margin-left:8px;">Untitled.txt</div>
             <div class="toolbar">
                 <button id="toggleMarkdownBtn" title="Toggle Markdown Preview (Ctrl+M)">
                     <span id="markdownIcon">MD</span> Markdown: <span id="markdownStatus">Off</span>
@@ -47,7 +48,7 @@
 
     <input id="fileInput" type="file" accept=".txt,.md,text/plain,text/markdown" style="display:none" />
 
-    <div id="settingsModal">
+    <div id="settingsModal" class="modal" data-modal="settings">
         <div id="settingsContent">
             <div id="settingsTabs">
                 <button class="tabBtn active" data-tab="editorTab">Editor</button>
@@ -118,9 +119,9 @@
         </div>
     </div>
 
-    <div id="helpModal">
-        <div id="helpContent">
-            <div class="helpContent">
+    <div id="helpModal" class="modal" data-modal="help">
+        <div id="helpContent" style="width: 90%; max-width: 900px; height: auto; max-height: 70vh; display: flex; flex-direction: column;">
+            <div style="overflow-y: auto; flex: 1; padding-right: 8px;">
                 <h3>Simple Web Notepad Help</h3>
                 <p>A lightweight, browser-based text editor with persistent storage and Markdown support.</p>
                 
@@ -158,9 +159,8 @@
                     <li>Use Ctrl+M to quickly toggle between Markdown and preview</li>
                     <li>In preview mode, you can edit text directly!</li>
                 </ul>
-                
-                <button id="closeHelp" style="margin-top:16px; float:right;">Close</button>
             </div>
+            <button id="closeHelp" style="margin-top: 16px; align-self: flex-end;">Close</button>
         </div>
     </div>
 
