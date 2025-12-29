@@ -450,8 +450,21 @@ function setupFontSearch(input, list, settingKey) {
 
 // File operations
 function saveFile() {
-    const name = currentFilename || 'notes.txt';
-    const blob = new Blob([editor.value], { type: 'text/plain;charset=utf-8' });
+    const text = editor.value || '';
+    const nameBase = currentFilename || 'notes.txt';
+
+    // If markdown detected or current filename already ends with .md, save as .md
+    const detectedMd = isMarkdownText(text) || (nameBase && nameBase.toLowerCase().endsWith('.md'));
+    let name = nameBase;
+    if (detectedMd) {
+        // Replace extension if present, otherwise append .md
+        if (!name.toLowerCase().endsWith('.md')) {
+            name = name.replace(/\.[^/.]+$/, '') + '.md';
+        }
+    }
+
+    const mime = detectedMd ? 'text/markdown;charset=utf-8' : 'text/plain;charset=utf-8';
+    const blob = new Blob([text], { type: mime });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = name;
@@ -459,6 +472,22 @@ function saveFile() {
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+}
+
+// Simple heuristic to detect Markdown content
+function isMarkdownText(text) {
+    if (!text || !text.trim()) return false;
+    const patterns = [
+        /^#{1,6}\s+/m,         // headings
+        /\*\*(.*?)\*\*/m,    // bold
+        /`{3}/m,                // code fence
+        /\[(.*?)\]\((.*?)\)/m, // links
+        /!\[(.*?)\]\((.*?)\)/m, // images
+        /^>\s+/m,              // blockquote
+        /^\s*[-*+]\s+/m,      // unordered list
+        /^\s*\d+\.\s+/m     // ordered list
+    ];
+    return patterns.some(rx => rx.test(text));
 }
 
 function saveContent() {
@@ -519,6 +548,17 @@ function setupEventListeners() {
         // Save cursor position on keydown
         saveCursorPosition();
         
+        // Handle Enter key in preview (insert newline) and Tab
+        if (e.key === 'Enter') {
+            // Insert a newline-like break in the contenteditable preview.
+            // Using insertHTML with two <br> gives a visible blank line similar to pressing Enter.
+            e.preventDefault();
+            document.execCommand('insertHTML', false, '<br><br>');
+            // Update underlying markdown and re-render (preserves cursor via existing logic)
+            handlePreviewEdit();
+            return;
+        }
+
         // Handle Tab key in preview
         if (e.key === 'Tab') {
             e.preventDefault();
